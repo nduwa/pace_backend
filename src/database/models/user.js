@@ -7,13 +7,25 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Role, { through: "UserRole" });
+    }
+
+    async checkPassword(password) {
+      const match = await bcrypt.compare(password, this.pwd);
+      return match;
     }
   }
+
   User.init(
     {
-      name: DataTypes.STRING,
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+      },
+      firstname: DataTypes.STRING,
+      lastname: DataTypes.STRING,
       email: DataTypes.STRING,
+      password: DataTypes.STRING,
     },
     {
       sequelize,
