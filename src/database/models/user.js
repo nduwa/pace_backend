@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     async checkPassword(password) {
-      const match = await bcrypt.compare(password, this.pwd);
+      const match = await bcrypt.compare(password, this.password);
       return match;
     }
   }
